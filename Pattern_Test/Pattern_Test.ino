@@ -19,7 +19,7 @@ void setup() {
 
   
 
-  randomSeed(analogRead(0)); // nothing connected to 0 so read sees noise
+  randomSeed(analogRead(0));
   Serial.begin(9600);
 
 }
@@ -98,8 +98,8 @@ allOff();
   for(int i=0; i < 90; i++)
   {
     del = 2000/i+1;
-    randNumber = random(8,14); // generate random number between 1 & 5
-    Serial.println(randNumber); // show the value in Serial Monitor
+    randNumber = random(8,14); // generate random number between 8 & 13 inclusive
+    Serial.println(randNumber);
     Serial.println(i);
     Serial.println();
     
