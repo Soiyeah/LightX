@@ -1,12 +1,12 @@
-int led1 = 13;
-int led2 = 12;
-int led3 = 11;
-int led4 = 10;
-int led5 = 9;
-int led6 = 8;
+int led1 = 12;
+int led2 = 11;
+int led3 = 10;
+int led4 = 9;
+int led5 = 8;
+int led6 = 7;
 
 int del = 200;
-char val;
+String fullStr, subStr;
 
 void setup() 
 {
@@ -27,57 +27,82 @@ void loop()
 
   if(Serial.available())
   {
-    val = Serial.read();
-    Serial.println(val);
-  }
-
-  if(val == '1')
-  {
-    digitalWrite(13,HIGH);
-  }
-  else if(val == '2')
-  {
-    digitalWrite(13,LOW);
-  }
-  
-  else if(val == '3')
-  {
-    for(int i=0; i < 5; i++)
-    {
     
-     digitalWrite(13,HIGH);
-     delay(500);
-     
-     digitalWrite(13,LOW);
-     digitalWrite(12,HIGH);
-     delay(500);
-     
-     digitalWrite(12,LOW);
-     digitalWrite(11,HIGH);
-     delay(500);
-     
-     digitalWrite(11,LOW);
-     digitalWrite(10,HIGH);
-     delay(500);
-     
-     digitalWrite(10,LOW);
-     digitalWrite(9,HIGH);
-     delay(500);
-     
-     digitalWrite(9,LOW);
-     digitalWrite(8,HIGH);
-     delay(500);
-     
-     digitalWrite(8,LOW);
-     delay(500);
+    fullStr = Serial.readString();
+
+    while((fullStr.length() >= 2))
+    {
+        subStr = fullStr.substring(0,2);
+        Serial.println("sub string: "+subStr);
+        ledControl(subStr);
+        fullStr.remove(0,2);
+
     }
     
+    
+    //ledControl();
+    
   }
-  delay(100);
-
 
 }
 
+
+void ledControl(String str)
+{
+  
+  if(str.equals("1H"))
+  {
+    digitalWrite(led1,HIGH);
+  }
+  else if(str.equals("2H"))
+  {
+    digitalWrite(led2,HIGH);
+  } 
+  else if(str.equals("3H"))
+  {
+    digitalWrite(led3,HIGH);   
+  }
+    else if(str.equals("4H"))
+  {
+    digitalWrite(led4,HIGH);
+  }   
+  else if(str.equals("5H"))
+  {
+    digitalWrite(led5,HIGH);   
+  }
+    else if(str.equals("6H"))
+  {
+    digitalWrite(led6,HIGH);   
+  }
+
+  else if(str.equals("1L"))
+  {
+    digitalWrite(led1,LOW);
+  } 
+  else if(str.equals("2L"))
+  {
+    digitalWrite(led2,LOW);
+  } 
+  else if(str.equals("3L"))
+  {
+    digitalWrite(led3,LOW);   
+  }
+    else if(str.equals("4L"))
+  {
+    digitalWrite(led4,LOW);
+  } 
+  else if(str.equals("5L"))
+  {
+    digitalWrite(led5,LOW);   
+  }
+    else if(str.equals("6L"))
+  {
+    digitalWrite(led6,LOW);   
+  }
+
+  delay(10);
+  
+}
 
 
 
