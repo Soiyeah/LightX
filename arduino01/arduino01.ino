@@ -1,12 +1,11 @@
-int led1 = 12;
+int led1 = 12;      //Initialize led pins.
 int led2 = 11;
 int led3 = 10;
 int led4 = 9;
 int led5 = 8;
 int led6 = 7;
 
-int del = 200;
-String fullStr, subStr;
+String fullStr, subStr;   // for receiving data.
 
 void setup() 
 {
@@ -27,20 +26,18 @@ void loop()
 
   if(Serial.available())
   {
-    
+
     fullStr = Serial.readString();
 
-    while((fullStr.length() >= 2))
+    while((fullStr.length() >= 2))                // If received more than one command.
     {
-        subStr = fullStr.substring(0,2);
-        Serial.println("sub string: "+subStr);
-        ledControl(subStr);
-        fullStr.remove(0,2);
-
+        subStr = fullStr.substring(0,2);          // get only the 1st 2 characters(Eg: "1H").
+        Serial.println("sub string: "+subStr);    
+        ledControl(subStr);                       // call ledControl function with current command.
+        fullStr.remove(0,2);                      // remove 1st 2 characters from the full string.
+                                                  
     }
-    
-    
-    //ledControl();
+
     
   }
 
