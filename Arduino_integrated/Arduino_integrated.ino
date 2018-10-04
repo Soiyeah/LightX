@@ -5,7 +5,17 @@ int led4 = 9;
 int led5 = 8;
 int led6 = 7;
 
+char mode='m';
+
 String fullStr, subStr;   // for receiving data.
+
+int i = 1;
+
+boolean soundstate;
+
+unsigned long currentMillis;
+int del = 150;
+
 
 void setup() 
 {
@@ -18,17 +28,29 @@ void setup()
   pinMode(led6,OUTPUT); 
   
   Serial.begin(9600);
+  pinMode(3,INPUT); //SIG of the Sound Sensor connected to Digital Pin 3
 
 }
 
 void loop() 
 {
+    switch(mode)
+    {
+        case 'm':
+              
+              break;
+
+        case 's':
+              upSweep();
+              break;
+
+    }       
+
 
   if(Serial.available())
   {
-
     fullStr = Serial.readString();
-
+ 
     while((fullStr.length() >= 2))                // If received more than one command.
     {
         subStr = fullStr.substring(0,2);          // get only the 1st 2 characters(Eg: "1H").
@@ -68,7 +90,8 @@ void ledControl(String str)
   }
     else if(str.equals("6H"))
   {
-    digitalWrite(led6,HIGH);   
+    mode='s';
+    // edited!!!!!!!! 
   }
 
   else if(str.equals("1L"))
@@ -95,9 +118,71 @@ void ledControl(String str)
   {
     digitalWrite(led6,LOW);   
   }
-
-  delay(10);
   
+  delay(10);
+}
+
+
+void upSweep()        //------------ Pattern 1 - Up sweep ---------------//
+{
+
+  soundstate = digitalRead(3);
+
+  if (soundstate == 1) 
+  {
+    switch(i)
+    {
+        case 1:
+
+          digitalWrite(led4, HIGH);
+          digitalWrite(led5, HIGH);
+          digitalWrite(led6, HIGH);
+          delay(del);
+          digitalWrite(led4, LOW);
+          digitalWrite(led5, LOW);
+          digitalWrite(led6, LOW); 
+
+            i++;
+             break;
+
+        case 2:
+
+          digitalWrite(led2, HIGH);
+          digitalWrite(led3, HIGH);
+          delay(del);
+          digitalWrite(led2, LOW);
+          digitalWrite(led3, LOW);
+            
+            i++;
+             break;
+
+        case 3:
+
+          digitalWrite(led1, HIGH);
+          delay(del);
+          digitalWrite(led1, LOW);
+          i++;  
+             break;
+             
+        default:
+            i = 1;
+    }           
+  }
+  else
+  {
+    allOff();
+  }
+}
+
+
+void allOff()
+{
+      digitalWrite(led1, LOW);
+      digitalWrite(led2, LOW);
+      digitalWrite(led3, LOW);
+      digitalWrite(led4, LOW);
+      digitalWrite(led5, LOW);
+      digitalWrite(led6, LOW);
 }
 
 
